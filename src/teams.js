@@ -1,4 +1,4 @@
-import { load } from 'cheerio';
+import { load } from 'cheerio/slim';
 import { normalize } from './vlr.js';
 
 const origin = 'https://www.vlr.gg';

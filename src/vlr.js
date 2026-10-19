@@ -1,4 +1,4 @@
-import { load } from 'cheerio';
+import { load } from 'cheerio/slim';
 
 export const sourceUrls = { upcoming: 'https://www.vlr.gg/matches', results: 'https://www.vlr.gg/matches/results' };
 const clean = text => text.replace(/\s+/g, ' ').trim();

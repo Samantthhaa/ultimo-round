@@ -4,9 +4,10 @@ import { matchEmbed, clutchEmbed, playerEmbed, statsEmbed, teamEmbed, teamSchedu
 import { cardMessage, helpCard } from './cards.js';
 import { sourceUrls } from './vlr.js';
 import { randomBytes } from 'node:crypto';
+import {inviteUrl} from './invite.js';
 
 const mentions = { parse: [], repliedUser: false };
-export function createHandler({ guildId, guildIds = [guildId], source, pros, now = Date.now, cooldownMs = 5000 }) {
+export function createHandler({ guildId, guildIds = [guildId], publicMode=false, appId, feedback, source, pros, now = Date.now, cooldownMs = 5000 }) {
   const allowedGuilds = new Set(guildIds.filter(Boolean));
   const lastCalls = new Map();
   const duels = new Map(), recentScenes = new Map();
@@ -14,10 +15,12 @@ export function createHandler({ guildId, guildIds = [guildId], source, pros, now
   let nextSweep = 0;
   return async function handle(interaction) {
     const replay = interaction.isButton?.() && interaction.customId.startsWith('clutch:replay:');
-    if (!replay && !interaction.isChatInputCommand()) return;
+    const feedbackSubmit=interaction.isModalSubmit?.()&&interaction.customId.startsWith('feedback:');
+    if (!replay && !feedbackSubmit && !interaction.isChatInputCommand()) return;
     const privateReply = content => interaction.reply({ content, flags: MessageFlags.Ephemeral, allowedMentions: mentions });
-    if (!interaction.guildId || !allowedGuilds.has(interaction.guildId)) return privateReply('Esta versão só funciona nos servidores de testes autorizados.');
-    if (!replay && !['clutch','jogos','resultado','jogador','classificacao','time','ajuda'].includes(interaction.commandName)) return;
+    if (!interaction.guildId || (!publicMode&&!allowedGuilds.has(interaction.guildId))) return privateReply(publicMode?'Use este comando em um servidor onde o bot foi instalado.':'Esta versão só funciona nos servidores de testes autorizados.');
+    if(feedbackSubmit) return feedback.submit(interaction);
+    if (!replay && !['clutch','jogos','resultado','jogador','classificacao','time','feedback','convidar','ajuda'].includes(interaction.commandName)) return;
     const timestamp = now();
     const saved = replay ? duels.get(interaction.customId) : null;
     if (replay && (!saved || saved.expires <= timestamp || saved.guildId !== interaction.guildId)) return privateReply('Esta revanche expirou. Comece um novo duelo com /clutch.');
@@ -32,6 +35,11 @@ export function createHandler({ guildId, guildIds = [guildId], source, pros, now
     if ((lastCalls.get(key) ?? 0) > timestamp) return privateReply('Espere 5 segundos entre comandos.');
     lastCalls.set(key, timestamp + cooldownMs);
     const iconUrl = interaction.client?.user?.displayAvatarURL({ extension: 'png', size: 128 });
+    if(interaction.commandName==='feedback') return feedback.open(interaction);
+    if(interaction.commandName==='convidar') {
+      const card=cardMessage({title:'💜 Leve o Último Round para o seu servidor',description:'Escolha o servidor pelo botão abaixo. Você precisa da permissão **Gerenciar servidor**.\n\nO bot pede apenas Ver canais, Enviar mensagens e Incorporar links. Os comandos aparecem após a instalação.',url:inviteUrl(appId??interaction.client.application.id),footer:{text:'Não precisa compartilhar tokens nem configurar IDs de servidores.'}},{iconUrl,linkLabel:'Adicionar ao servidor'});
+      return interaction.reply({...card,flags:card.flags|MessageFlags.Ephemeral,allowedMentions:mentions});
+    }
     if (interaction.commandName === 'ajuda') {
       const card = helpCard({ iconUrl });
       return interaction.reply({ ...card, flags: card.flags | MessageFlags.Ephemeral, allowedMentions: mentions });

@@ -1,4 +1,4 @@
-import { load } from 'cheerio';
+import { load } from 'cheerio/slim';
 import { normalize, teamSearchQuery } from './vlr.js';
 import { teamPeriod, parseTeamSearch, parseTeam, parseTeamMaps, parseTeamUpcoming } from './teams.js';
 

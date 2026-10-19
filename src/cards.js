@@ -30,7 +30,8 @@ export function helpCard(options) {
       { name: '🎲 Bora um duelo?', value: '`/clutch jogador1 jogador2 [mapa]`\nEscolha duas pessoas: há reviravoltas, mapas sorteados e um botão Revanche para repetir. Quem lançou o duelo e os participantes podem usá-lo durante 10 minutos.' },
       { name: '📺 Acompanhar o competitivo', value: '`/jogos [time] [foco]` · próximas partidas; indicar time consulta a sua agenda exata\n`/resultado [time] [foco]` · resultados recentes\n`/time nome` · elenco, rounds e prêmios dos três anos civis mais recentes\nNos jogos/resultados: Brasil por padrão. Indicar um time substitui o foco. Para GC ou Academy, escreva o nome completo.' },
       { name: '🏅 De olho nos jogadores', value: '`/jogador nome` · perfil e time atual\n`/classificacao [criterio] [periodo] [foco]` · comparar estatísticas\nRating VLR, 60 dias e Internacional por padrão. Também tem ACS, K/D e filtro Brasil.' },
-      { name: 'Experimente', value: '`/jogador nome:aspas`\n`/classificacao criterio:acs periodo:30d foco:br`\nEspere 5 segundos entre comandos.' }
+      { name: 'Experimente', value: '`/jogador nome:aspas`\n`/classificacao criterio:acs periodo:30d foco:br`\nEspere 5 segundos entre comandos.' },
+      {name:'💌 Ajude o bot a melhorar',value:'`/feedback [tipo]` · envie uma ideia ou erro em particular para a desenvolvedora\n`/convidar` · adicione o bot em outro servidor'}
     ], footer: { text: 'Clutches fictícios · Dados VLR.gg, cache 10 min e cobertura da página consultada · Tabela VCT com mínimo 200 rounds · Brasil filtra bandeiras/evento nas partidas e bandeira do jogador na tabela · Sem afiliação à Riot, Discord ou VLR.gg' },
     url: 'https://www.vlr.gg'
   }, { ...options, linkLabel: 'Explorar o competitivo' });

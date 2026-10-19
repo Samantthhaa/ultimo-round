@@ -127,7 +127,7 @@ test('configuração: lista de servidores valida IDs, elimina duplicados e mant�
   for(const invalid of ['','*','123','333333333333333333,']) assert.throws(()=>readConfig({...base,DISCORD_GUILD_IDS:invalid},{tokenRequired:false}),/GUILD_IDS/);
 });
 test('comandos e configuração: contrato válido e sem necessidade de intents privilegiados', () => {
-  assert.deepEqual(commands.map(c=>c.name), ['clutch','jogos','resultado','jogador','classificacao','time','ajuda']);
+  assert.deepEqual(commands.map(c=>c.name), ['clutch','jogos','resultado','jogador','classificacao','time','feedback','convidar','ajuda']);
   assert.ok(!commands[0].options.find(o => o.name === 'mapa').required);
   assert.ok(helpText.length <= 2000);
   assert.ok(commands.every(c=>c.description.length <= 100));

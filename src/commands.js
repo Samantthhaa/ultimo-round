@@ -21,5 +21,8 @@ export const commands = [
     .addStringOption(o => o.setName('foco').setDescription('Internacional por padrão; Brasil usa a bandeira do jogador').addChoices(...focusChoices)),
   new SlashCommandBuilder().setName('time').setDescription('Pesquisa elenco, rounds e prêmios nos três anos civis mais recentes.')
     .addStringOption(o => o.setName('nome').setDescription('Nome do time, por exemplo LOUD, MIBR ou FURIA').setRequired(true).setMinLength(2).setMaxLength(50)),
+  new SlashCommandBuilder().setName('feedback').setDescription('Envie uma sugestão ou um erro em particular para a desenvolvedora.')
+    .addStringOption(o=>o.setName('tipo').setDescription('O que você quer enviar?').addChoices({name:'Sugestão',value:'sugestao'},{name:'Erro',value:'bug'},{name:'Outro',value:'outro'})),
+  new SlashCommandBuilder().setName('convidar').setDescription('Mostra o link para adicionar o Último Round em outro servidor.'),
   new SlashCommandBuilder().setName('ajuda').setDescription('Mostra os comandos e explica os limites desta versão.')
 ].map(command => command.toJSON());
