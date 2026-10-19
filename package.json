@@ -1,0 +1,17 @@
+{
+  "name": "ultimo-round",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Bot de VALORANT para clutches fictícios, calendário e resultados competitivos.",
+  "engines": { "node": ">=22.13.0" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/index.js",
+    "register": "node --env-file-if-exists=.env scripts/register-commands.js",
+    "invite": "node --env-file-if-exists=.env scripts/invite.js",
+    "demo": "node scripts/demo.js",
+    "check:source": "node scripts/check-source.js",
+    "test": "node --test"
+  },
+  "dependencies": { "cheerio": "1.2.0", "discord.js": "14.27.0" }
+}
